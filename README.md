@@ -1,4 +1,4 @@
-# Female-Code-Lab
+# Female Code Lab
 
 The Female Code Lab is a feminist workshop about programming and coding
 addressed to all women/feminities (\*over 18 years old) interested in
