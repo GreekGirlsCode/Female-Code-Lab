@@ -1,0 +1,259 @@
+---
+title: "Intro to R"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+author: "Female Code Lab - Greek Girls Code"
+date: "15/12/2021"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+    theme:
+      bg: "#202123"
+      fg: "#B8BCC2"
+      primary: "#EA80FC"
+      secondary: "#00DAC6"
+      base_font:
+        google: Prompt
+      heading_font:
+        google: Proza Libre
+       
+---
+
+```{r setup, include=FALSE}
+if (requireNamespace("thematic")) 
+  thematic::thematic_rmd(font = "auto")
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('')
+```
+
+# Welcome   
+
+Welcome to the Female Code Lab "Intro to R" hands on tutorial delivered by Greek Girls Code.
+
+RStudio is an Integrated Development Environment for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it!
+
+**The tutorial is designed to help you: **
+
+- Familiarize with R and RStudio IDE
+- Familiarize with the types of data
+- Learn R base functions
+- Intro to data transformation with `tidyverse` R package
+
+
+# Before we start - Participant preparation
+
+To maintain a smooth and timely flow during the "Intro to R" section of the Female Code Lab, each participant must install and set up R, Rstudio and the tidyverse R package before the tutorial. 
+
+To do so please follow the instructions bellow:
+
+## How to install R
+
+
+To install R on your computer you can also watch the following video at 
+<https://vimeo.com/203516510>
+
+## How to install RStudio
+
+<https://vimeo.com/203516968>
+
+## How to install `tidyverse` R package. 
+
+In this section you will learn how to install `tidyverse` but the process is essentially the same for any R package <https://vimeo.com/203516241>. 
+
+`tidyverse` [`{tidyverse}` package](https://www.tidyverse.org/). is compilation or collection of R packages each one designed to transform and visualize data. All `tidyverse` packages implement the same syntax/ grammar in the command line. 
+
+To install call the following R function:
+
+```{r, eval=FALSE, class.source='klippy'}
+install.packages("tidyverse")
+```
+
+# Intro to R
+*this section includes content from the joint ????????-Greek Girls Code workshop created and delivered by Eirini Tsirvouli* 
+<https://eirinits.github.io/>
+
+
+## Basic R commands and functionalities
+
+You can use R to perform basic math just as you would do using a calculator!
+You can just add numbers and get the result
+```{r Addition, echo=TRUE}
+#add numbers
+1+2
+
+#raise to power 6
+4^6
+
+#create a sequence of numbers (integers) from 1 to 100
+seq(1,100)
+```
+
+You can use all arithmetic operators for practice 
+
+- Try `+`, `-`, `*`, `/ ` 
+- Try more complex math e.g. (2+4)^2/5 
+
+### Logical Tests
+
+You can use R to test logical arguments
+for example 
+```{r echo=TRUE}
+# test if 
+1/2 == 0.5
+
+# or test if 
+1/2 > 0.5
+```
+
+### Data types 
+
+<https://vimeo.com/220490241>
+
+
+### Data Structures
+
+A vector is the most basic type of data structure in R. It is essentially a collection of data assigned to a symbol using the assignment operator <- .
+```{r echo=TRUE}
+# you can assign a single number to a vector x
+x<-1
+#then call the vector and get the result
+x
+# you can assign 1 dimensional data such as string of values
+weight<-c(50, 60, 65, 72, 82, 94)
+#call weight
+weight
+# you can also get the vector length (number of values contained in the vector)
+length(weight)
+# by calling the mode() command you can find out what kind of data the vector holds
+mode(weight)
+```
+
+
+You can create 2 dimensional vectors by assigning other type of data structure like a **data frame**. A **data frame** is a 2-dimensional table-like structure which contains columns and rows with variables and values.
+
+```{r echo=TRUE}
+#call the mtcars data
+mtcars
+#find out its structure type (class)
+class(mtcars)
+# assign the data frame to a vector
+cars<-mtcars
+#call cars
+cars
+```
+
+Other data structures include:
+
+- lists , 1-D structure
+- matrices, 2-D structures of homogeneous data
+- arrays, multiple dimensions of homogeneous data
+
+### Contructing and manipulating vectors and data frames: R base functions
+
+We can construct a data.frame or a 1-D vector and extract information based on desired criteria.
+
+```{r echo=TRUE}
+# construct a 1-D vector
+treatment_dose <- c("90mg","40mg","20mg","90mg","20mg")
+# get the type 
+mode(treatment_dose)
+# get the 1st value in the sequence of values
+treatment_dose[1]
+
+# we can add a new value to the vextor
+
+treatment_dose_plus<- c(treatment_dose, "25mg")
+
+treatment_dose_plus
+
+# or we can subtract a value from the vector
+
+treatment_dose_minus<-treatment_dose[-1]
+
+treatment_dose_minus
+```
+
+or we can assign a data frame to a vector and extract information based on our predefined criteria
+
+```{r echo=TRUE}
+#get the dimensions of mtcars
+dim(mtcars)
+# get the first 6 rows of mtcras
+head(mtcars)
+# get the column names
+colnames(mtcars)
+#get the rownames of mtcars
+rownames(mtcars)
+
+#subset the first 2 columns of the dataframe
+mt.sub1<-mtcars[,1:2]
+mt.sub1
+#subset the 1st 2 rows and the first 2 columns
+mt.sub2<-mtcars[1:2, 1:2]
+mt.sub2
+```
+
+### Transforming and filtering a dataframe with `tidyverse`
+
+Tidyverse is a collection of packages essential to data science and analysis. By loading the package you'll see each package contained in the collection. We will demonstrate a couple of `dplyr` functions for mutating and filtering data from the mtcars data frame. This dataframe contains columns with numeric data. `dplyr` can mutate and filter data from heterogeneous data frames with columns of numeric and character data but this will be demonstrated in the next more advanced tutorial by Irene-Angelica Chounta. 
+
+```{r echo=TRUE}
+library(tidyverse)
+
+#multiply mpg with cyl and add the result in a new column named prod
+
+#first we need to transform the rownames into a column named "name"
+mtcars.new<-rownames_to_column(mtcars, var="name")
+head(mtcars.new)
+
+mtcars.mut<-mtcars.new %>% mutate (name, prod = (mpg*cyl) )
+mtcars.mut
+# now we want to select the name, mpg , cyl and the prod columns and remove all other columns 
+mtcars.mut<-mtcars.mut %>% select(name:cyl,prod)
+mtcars.mut
+```
+
+
+## Create an RStudio project
+
+RStudio gives you an option to start a project where you can:
+
+- create a directory to store your data, analysis files, variables and the project related packages
+- start the analysis from where you left it last time you worked on the project
+- collaborate and publish reproducible analyses in public repositories such as github
+
+
+
+
+## Themed Plots {.tabset .tabset-pills}
+
+
+
+### ggplot2
+
+```{r}
+library(ggplot2)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() + geom_smooth()
+```
+
+### lattice
+
+```{r}
+lattice::show.settings()
+```
+
+### base
+
+```{r}
+plot(pressure, col = thematic::thematic_get_option("accent"))
+```
